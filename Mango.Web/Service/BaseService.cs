@@ -34,6 +34,7 @@ namespace Mango.Web.Service
                 message.RequestUri = new Uri(requestDTO.Url);
 
                 // configuring the data
+                // only POST and PUT will have data
                 if (requestDTO.Data != null)
                 {
                     message.Content = new StringContent(JsonConvert.SerializeObject(requestDTO.Data), Encoding.UTF8, "application/json");
