@@ -19,9 +19,33 @@ namespace Mango.Services.AuthAPI.Service
             _roleManager = roleManager;
         }
 
-        public Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
+        public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
         {
-            throw new NotImplementedException();
+            var user = _db.ApplicationUsers.FirstOrDefault(u => u.UserName.ToLower() == loginRequestDTO.UserName.ToLower());
+            
+            bool isValid = await _userManager.CheckPasswordAsync(user, loginRequestDTO.Password);
+
+            if (user == null || !isValid)
+            {
+                return new LoginResponseDTO() { User = null, Token = string.Empty };
+            }
+
+            // if user was found, generate JWT
+            UserDTO userDTO = new()
+            {
+                ID = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                PhoneNumber = user.PhoneNumber
+            };
+
+            LoginResponseDTO loginResponseDTO = new LoginResponseDTO()
+            {
+                User = userDTO,
+                Token = ""
+            };
+
+            return loginResponseDTO;
         }
 
         public async Task<string> Register(RegistrationRequestDTO registrationRequestDTO)
