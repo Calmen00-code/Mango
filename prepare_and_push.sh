@@ -1,9 +1,10 @@
 # Push process is done in following order:
-#   1. Push in current working branch
-#   2. If succeed, checkout to master branch.
+#   1. Exit if there are uncommitted changes
+#   2. Push in current working branch
+#   3. If succeed, checkout to master branch.
 #       a. Otherwise, abort the script
-#   3. Merge changes from current working branch to master
-#   4. If succeed, push to master branch
+#   4. Merge changes from current working branch to master
+#   5. If succeed, push to master branch
 #       a. Otherwise, abort the script
 #   
 #   To execute:
@@ -15,6 +16,13 @@
 #           - add below line to ~/.bashrc
 #           - export PATH="$PATH:/bin/prepare_and_push" 
 #           Then, execute it: prepare_and_push   
+#
+
+# Ensure there are no uncommitted changes before proceeding
+if ! git diff-index --quiet HEAD --; then
+    echo -e "\e[31mYou have uncommitted changes.\e[0m"
+    exit 1
+fi
 
 # Push to main branch first
 current_branch=$(git rev-parse --abbrev-ref HEAD)
