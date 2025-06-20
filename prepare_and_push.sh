@@ -73,7 +73,7 @@ result=$(git checkout $current_branch > /dev/null 2>&1)
 status=$?
 
 if [ $status -eq 0 ]; then
-    echo "Switched back to $current_branch"
+    echo "Switched back to branch '$current_branch'"
 else
     echo -e "\e[32mUnable to checkout back to $current_branch\e[0m"
     echo "$result"
