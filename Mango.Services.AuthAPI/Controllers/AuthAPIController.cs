@@ -35,7 +35,7 @@ namespace Mango.Services.AuthAPI.Controllers
             return Ok(_response);
         }
 
-        [HttpPost("login")]
+        [HttpGet("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO loginModel)
         {
             var loginResponse = await _authService.Login(loginModel);
