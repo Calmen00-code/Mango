@@ -69,10 +69,12 @@ else
     exit 1
 fi
 
-result=$(git checkout $current_branch)
+result=$(git checkout $current_branch > /dev/null 2>&1)
 status=$?
 
-if [ $status -ne 0 ]; then
+if [ $status -eq 0 ]; then
+    echo "Switched back to $current_branch"
+else
     echo -e "\e[32mUnable to checkout back to $current_branch\e[0m"
     echo "$result"
 fi
