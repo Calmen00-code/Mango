@@ -55,7 +55,8 @@ namespace Mango.Services.AuthAPI.Service
             }
 
             // if user was found, generate JWT
-            var token = _jwtTokenGenerator.GenerateToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var token = _jwtTokenGenerator.GenerateToken(user, roles);
 
             UserDTO userDTO = new()
             {
