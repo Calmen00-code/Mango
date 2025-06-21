@@ -17,7 +17,7 @@ namespace Mango.Web.Service
         {
             return await _baseService.SendAsync(new RequestDTO()
             {
-                ApiType = SD.ApiType.GET,
+                ApiType = SD.ApiType.POST,
                 Data = loginRequestDTO,
                 Url = SD.AuthAPIBase + "/api/auth/login"
             });
