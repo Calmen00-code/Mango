@@ -60,6 +60,24 @@ namespace Mango.Services.ProductAPI.Controllers
             return _response;
         }
 
+        [HttpGet]
+        [Route("GetByProductName/{name}")]
+        public ResponseDTO GetByProductName(string name)
+        {
+            try
+            {
+                Product product = _db.Products.FirstOrDefault(u => u.Name == name);
+                _response.Result = _mapper.Map<ProductDTO>(product);
+            }
+            catch(Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+
+            return _response;
+        }
+
         [HttpPost]
         [Authorize(Roles = SD.ROLE_ADMIN)]
         public ResponseDTO Post([FromBody] ProductDTO productDTO)
