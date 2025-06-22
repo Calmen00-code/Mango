@@ -2,13 +2,16 @@
 using Mango.Services.CouponAPI.Models.DTO;
 using Mango.Services.ProductAPI.Data;
 using Mango.Services.ProductAPI.Models;
+using Mango.Services.ProductAPI.Utility;
 using Mango.Services.ProductAPI.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mango.Services.ProductAPI.Controllers
 {
     [Route("api/product")]
     [ApiController]
+    [Authorize]
     public class ProductAPIController : ControllerBase
     {
         private readonly AppDbContext _db;
@@ -58,6 +61,7 @@ namespace Mango.Services.ProductAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = SD.ROLE_ADMIN)]
         public ResponseDTO Post([FromBody] ProductDTO productDTO)
         {
             try
@@ -78,6 +82,7 @@ namespace Mango.Services.ProductAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = SD.ROLE_ADMIN)]
         public ResponseDTO Put([FromBody] ProductDTO productDTO)
         {
             try
@@ -90,10 +95,6 @@ namespace Mango.Services.ProductAPI.Controllers
                 }
 
                 _mapper.Map(productDTO, updateProduct);
-                //updateProduct.Name = productDTO.Name;
-                //updateProduct.Price = productDTO.Price;
-                //updateProduct.Description = productDTO.Description;
-                //updateProduct.ImageUrl = productDTO.ImageUrl;
 
                 _db.Products.Update(updateProduct);
                 _db.SaveChanges();
@@ -111,6 +112,7 @@ namespace Mango.Services.ProductAPI.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = SD.ROLE_ADMIN)]
         public ResponseDTO Delete(int id)
         {
             try
