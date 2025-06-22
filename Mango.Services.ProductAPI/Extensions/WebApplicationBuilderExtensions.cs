@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Mango.Services.ProductAPI
+namespace Mango.Services.ProductAPI.Extensions
 {
     public static class WebApplicationBuilderExtensions
     {
