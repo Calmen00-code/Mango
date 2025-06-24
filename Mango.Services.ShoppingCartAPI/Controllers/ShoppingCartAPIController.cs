@@ -24,7 +24,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         }
 
         [HttpGet("GetCart/{userId}")]
-        public async Task<ResponseDTO> GetCart([FromBody] string userId)
+        public async Task<ResponseDTO> GetCart(string userId)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
 
                 foreach (var item in cart.CartDetails)
                 {
-                    item.CartHeader.CartTotal += (item.Count * item.Product.Price);
+                    cart.CartHeader.CartTotal += (item.Count * item.Product.Price);
                 }
 
                 _response.Result = cart;
