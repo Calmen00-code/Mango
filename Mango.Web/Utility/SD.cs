@@ -6,6 +6,8 @@
         public static string AuthAPIBase { get; set; }
         public static string ProductAPIBase { get; set; }
 
+        public static string ShoppingCartAPIBase { get; set; }
+
         public const string ROLE_ADMIN = "ADMIN";
         public const string ROLE_CUSTOMER = "CUSTOMER";
         public const string TOKEN_COOKIE = "JWT_TOKEN";
