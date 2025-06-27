@@ -23,6 +23,49 @@ namespace Mango.Web.Controllers
             return View(cart);
         }
 
+        public async Task<IActionResult> Remove(int cartDetailsId)
+        {
+            var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
+            ResponseDTO? response = await _cartService.RemoveFromCartAsync(cartDetailsId);
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveCoupon(CartDTO cart)
+        {
+            cart.CartHeader.CouponCode = "";
+            ResponseDTO? response = await _cartService.ApplyCouponAsync(cart);
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ApplyCoupon(CartDTO cart)
+        {
+            ResponseDTO? response = await _cartService.ApplyCouponAsync(cart);
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+
+            return View();
+        }
+
         // PRIVATE METHODS
 
         private async Task<CartDTO> LoadCartDTOBasedOnLoggedInUser()
