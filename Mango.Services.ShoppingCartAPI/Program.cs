@@ -13,6 +13,9 @@ using Mango.Services.ShoppingCartAPI.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
+SD.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
+SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
+
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(option =>
 {
@@ -22,15 +25,19 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddHttpClient<IProductService, ProductService>();
-builder.Services.AddHttpClient<ICouponService, CouponService>();
+builder.Services.AddHttpClient<IProductService, ProductService>("Product", u => u.BaseAddress =
+    new Uri(SD.ProductAPIBase)).AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+builder.Services.AddHttpClient<ICouponService, CouponService>("Coupon", u => u.BaseAddress = 
+    new Uri(SD.CouponAPIBase)).AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
-SD.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
-SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
+builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option => {
