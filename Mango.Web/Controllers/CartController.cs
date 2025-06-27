@@ -20,7 +20,7 @@ namespace Mango.Web.Controllers
         public async Task<IActionResult> CartIndex()
         {
             CartDTO cart = await LoadCartDTOBasedOnLoggedInUser();
-            return View();
+            return View(cart);
         }
 
         // PRIVATE METHODS
