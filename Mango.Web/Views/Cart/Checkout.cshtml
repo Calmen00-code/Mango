@@ -20,16 +20,16 @@
             <div class="col-7">
                 <div class="row pt-2">
                     <div class="col-12 py-2">
-                        <input asp-for="CartHeader.FirstName" placeholder="first name..." class="form-control" />
+                        <input asp-for="@Model.CartHeader.FirstName" placeholder="first name..." class="form-control" />
                     </div>
                     <div class="col-12 py-2">
-                        <input asp-for="CartHeader.LastName" placeholder="last name..." class="form-control" />
+                        <input asp-for="@Model.CartHeader.LastName" placeholder="last name..." class="form-control" />
                     </div>
                     <div class="col-12 py-2">
-                        <input asp-for="CartHeader.Email" placeholder="email..." class="form-control" />
+                        <input asp-for="@Model.CartHeader.Email" placeholder="email..." class="form-control" />
                     </div>
                     <div class="col-12 py-2">
-                        <input asp-for="CartHeader.Phone" class="form-control" placeholder="phone number..." />
+                        <input asp-for="@Model.CartHeader.Phone" class="form-control" placeholder="phone number..." />
                     </div>
                     <div class="col-12 pt-2">
                         <label class="col-form-label">Order will be ready in 30minutes after placing order. If you place order when restaurant is closed it will be ready next day.</label>
