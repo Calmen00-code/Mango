@@ -65,17 +65,9 @@ namespace Mango.Services.OrderAPI.Controllers
                 {
                     SuccessUrl = stripeRequestDTO.ApprovedUrl,
                     CancelUrl = stripeRequestDTO.CancelUrl,
-                    LineItems = new List<SessionLineItemOptions>
-                    {
-                        new SessionLineItemOptions
-                        {
-                            Price = "price_1MotwRLkdIwHu7ixYcPLm5uZ",
-                            Quantity = 2,
-                        },
-                    },
+                    LineItems = new List<SessionLineItemOptions>(),
                     Mode = "payment",
                 };
-
 
                 foreach (var item in stripeRequestDTO.OrderHeader.OrderDetails)
                 {
@@ -111,6 +103,7 @@ namespace Mango.Services.OrderAPI.Controllers
                 _response.IsSuccess = false;
                 _response.Message = ex.Message;
             }
+            return _response;
         }
     }
 }
