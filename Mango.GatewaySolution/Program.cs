@@ -4,12 +4,16 @@ using Ocelot.Middleware;
 using Ocelot.Values;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 builder.AddAppAuthentication();
-builder.Services.AddOcelot();
+builder.Services.AddOcelot(builder.Configuration);
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
-app.UseOcelot();
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+await app.UseOcelot();
 
 app.Run();

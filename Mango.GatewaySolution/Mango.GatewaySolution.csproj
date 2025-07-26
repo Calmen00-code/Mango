@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>f9fb551c-8054-4e1e-94f1-c67bb38d25c2</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
 	<PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2.0" />
