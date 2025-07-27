@@ -13,7 +13,6 @@ namespace Mango.Services.EmailAPI.Messaging
         private readonly IConfiguration _configuration;
         private readonly EmailService _emailService;
         private IConnection _connection;
-        private IChannel _channel;
 
         public RabbitMQAuthConsumer(IConfiguration configuration, EmailService emailService)
         {
@@ -37,7 +36,7 @@ namespace Mango.Services.EmailAPI.Messaging
 
             stoppingToken.ThrowIfCancellationRequested();
 
-            var consumer = new AsyncEventingBasicConsumer(_channel);
+            var consumer = new AsyncEventingBasicConsumer(channel);
             consumer.ReceivedAsync += async (ch, ea) =>
             {
                 var content = Encoding.UTF8.GetString(ea.Body.ToArray());
@@ -46,10 +45,10 @@ namespace Mango.Services.EmailAPI.Messaging
                 // processing the message
                 HandleMessage(email).GetAwaiter().GetResult();
 
-                await _channel.BasicAckAsync(ea.DeliveryTag, false);
+                await channel.BasicAckAsync(ea.DeliveryTag, false);
             };
 
-            string consumerTag = await _channel.BasicConsumeAsync(
+            string consumerTag = await channel.BasicConsumeAsync(
                     _configuration.GetValue<string>("TopicAndQueueNames:RegisterUserQueue"), false, consumer);
 
             return Task.CompletedTask;
@@ -58,7 +57,7 @@ namespace Mango.Services.EmailAPI.Messaging
 
         private async Task HandleMessage(string email)
         {
-            
+            _emailService.RegisterUserEmailAndLog(email).GetAwaiter().GetResult();
         }
     }
 }
