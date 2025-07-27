@@ -36,7 +36,7 @@ namespace Mango.Services.AuthAPI.RabbitMQSender
             var json = JsonConvert.SerializeObject(message);
             var body = Encoding.UTF8.GetBytes(json);
 
-            await channel.BasicPublishAsync(exchange: "", routingKey: queueName, null, body: body);
+            await channel.BasicPublishAsync(exchange: "", routingKey: queueName, body: body);
         }
     }
 }
