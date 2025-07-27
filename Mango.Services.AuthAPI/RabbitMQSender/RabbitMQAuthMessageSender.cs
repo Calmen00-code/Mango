@@ -21,14 +21,7 @@ namespace Mango.Services.AuthAPI.RabbitMQSender
 
         public async void SendMessage(object message, string queueName)
         {
-            var factory = new ConnectionFactory
-            {
-                HostName = _hostName,
-                Password = _password,
-                UserName = _username
-            };
-
-            _connection = await factory.CreateConnectionAsync();
+            CreateConnectionIfNotAlready();
 
             IChannel channel = await _connection.CreateChannelAsync();
             await channel.QueueDeclareAsync(queueName, false, false, false, null);
@@ -37,6 +30,30 @@ namespace Mango.Services.AuthAPI.RabbitMQSender
             var body = Encoding.UTF8.GetBytes(json);
 
             await channel.BasicPublishAsync(exchange: "", routingKey: queueName, body: body);
+        }
+
+        private async void CreateConnectionIfNotAlready()
+        {
+            if (_connection == null)
+            {
+                return;
+            }
+
+            try
+            {
+                var factory = new ConnectionFactory
+                {
+                    HostName = _hostName,
+                    Password = _password,
+                    UserName = _username
+                };
+
+                _connection = await factory.CreateConnectionAsync();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }
