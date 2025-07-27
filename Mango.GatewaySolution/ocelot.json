@@ -161,9 +161,9 @@
 
     // ORDER API
     {
-      "UpstreamPathTemplate": "api/order/CreateOrder",
+      "UpstreamPathTemplate": "/api/order/CreateOrder",
       "UpstreamHttpMethod": [ "POST" ],
-      "DownstreamPathTemplate": "api/order/CreateOrder",
+      "DownstreamPathTemplate": "/api/order/CreateOrder",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

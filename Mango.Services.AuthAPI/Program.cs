@@ -1,5 +1,6 @@
 using Mango.Services.AuthAPI.Data;
 using Mango.Services.AuthAPI.Models;
+using Mango.Services.AuthAPI.RabbitMQSender;
 using Mango.Services.AuthAPI.Service;
 using Mango.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-
+builder.Services.AddScoped<IRabbitMQAuthMessageSender, RabbitMQAuthMessageSender>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
